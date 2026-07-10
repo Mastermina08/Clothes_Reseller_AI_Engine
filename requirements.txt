@@ -1,0 +1,8 @@
+requests
+Pillow
+cloudinary
+numpy
+opencv-python-headless
+mediapipe==0.10.14
+rembg
+simple-lama-inpainting
