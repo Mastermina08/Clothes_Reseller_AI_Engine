@@ -139,6 +139,14 @@ def main():
         return
 
     # Load LaMa once
+    import torch
+    torch.cuda.is_available = lambda: False
+    # Force all torch.jit loads to map to CPU, avoiding CUDA ops in the model
+    _original_jit_load = torch.jit.load
+    def _cpu_jit_load(*args, **kwargs):
+        kwargs['map_location'] = 'cpu'
+        return _original_jit_load(*args, **kwargs)
+    torch.jit.load = _cpu_jit_load
     from simple_lama_inpainting import SimpleLama
     simple_lama = SimpleLama()
     
